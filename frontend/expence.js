@@ -53,7 +53,10 @@ form.addEventListener('click', (e) => {
                     return alert(`${response.data.message}`);
                 }
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+                document.body.innerHTML += `<div style="color:red; background-color:white; text-align:center;">${err.response.data.message}</div>`;
+            });
     }
 
     if (e.target.className == 'firstGoSignUp') {

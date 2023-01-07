@@ -36,14 +36,17 @@ exports.login = (req, res, next) => {
     User.findAll({ where : { email : email}})
     .then(user => {
         if(user.length == 0){
-            return res.status(201).json({message : `User : ${email} does not exist`});
+            return res.status(404).json({message : `Error(404) : User ${email} does not exist`});
         }else{
             if (user[0].passward == passward){
                 return res.status(201).json({message : `User : ${user[0].name} logged in successfully.`});
             }else {
-                return res.status(201).json({message : `Wrong passward !` });
+                return res.status(401).json({message : `Error(401) : User not authorized !` });
             }
         }
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+        console.log(err);
+        res.status(400).json({error : err});
+    });
 }
