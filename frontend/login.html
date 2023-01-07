@@ -5,8 +5,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
+    <link rel="stylesheet" href="expence.css">
 </head>
 <body>
-    <h1>This is a Login page</h1>
+    <header>
+        <h5>Designed by Zuber Ahmad.</h5>
+        <h1>Expence Tracker</h1>
+      </header>
+    
+      <section class="container">
+        <form id="my-form">
+    
+          <h1>Log in :</h1>
+          <div class="msg"></div>
+          <div id="div">
+            <div class="data">
+                <label for="email">Email :</label>
+                <input type="email" id="email" name="email" placeholder="zuberahmad123@gmail.com">
+              </div>
+            <div class="data">
+              <label for="passward">Passward :</label>
+              <input type="password" id="passward" name="passward" placeholder="*****">
+            </div>
+          </div>
+          <button type="click" id="btn" class="goToLogin">Login</button>
+          <button type="click" id="btn" class="firstGoSignUp">New User - Signup Now</button>
+        </form>
+    
+      </section>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.js"></script>
+      <script src="expence.js"></script>
+    
 </body>
 </html>
