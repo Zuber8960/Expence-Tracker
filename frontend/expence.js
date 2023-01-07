@@ -9,10 +9,11 @@ form.addEventListener('click', (e) => {
         let passward = document.getElementById('passward').value;
 
         let obj = { name, email, passward };
-        console.log(obj);
-        axios.post('http://localhost:3000/user/sign-up', obj)
-            .then(responce => {
-                // console.log('ok');
+        // console.log(obj);
+        signUp();
+        async function signUp() {
+            try {
+                const responce = await axios.post('http://localhost:3000/user/sign-up', obj);
                 if (responce.status === 201) {
                     return window.location.href = "./login.html";
                 } else if (responce.status == 200) {
@@ -24,11 +25,11 @@ form.addEventListener('click', (e) => {
                 } else {
                     throw new Error("Failed to login.");
                 }
-            })
-            .catch(err => {
+            } catch (err) {
                 console.log(`error ==> `, err);
                 document.body.innerHTML += `<div style="color:red; background-color:white; text-align:center;">${err.response.data.message}</div>`;
-            });
+            }
+        }
     }
 
     if (e.target.className == 'login') {
@@ -40,11 +41,13 @@ form.addEventListener('click', (e) => {
         let passward = document.getElementById('passward').value;
         let obj = { email, passward };
         console.log(obj);
-        axios.post(`http://localhost:3000/user/login`, obj)
-            .then(response => {
+        login();
+        async function login() {
+            try {
+                const response = await axios.post(`http://localhost:3000/user/login`, obj);
                 console.log(response);
                 if (response.status == 201) {
-                    if (response.data.error) {
+                    if (!response.data.success) {
                         massage.innerHTML = response.data.message;
                         return setTimeout(() => {
                             massage.innerHTML = "";
@@ -52,11 +55,12 @@ form.addEventListener('click', (e) => {
                     }
                     return alert(`${response.data.message}`);
                 }
-            })
-            .catch(err => {
+            } catch (err) {
                 console.log(err);
                 document.body.innerHTML += `<div style="color:red; background-color:white; text-align:center;">${err.response.data.message}</div>`;
-            });
+            }
+
+        }
     }
 
     if (e.target.className == 'firstGoSignUp') {
