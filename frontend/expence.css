@@ -70,5 +70,27 @@
   .msg{
     background-color: red;
     color: white;
-    display: flex;
+    text-align: center;
+  }
+  .delete,
+  .edit{
+    font-weight: 800;
+    color: white;
+    background-color: #c05e5e;
+    padding: 8px;
+    margin: 2px 4px;
+    border: 1px solid #ccc;
+  }
+
+  .delete:hover,
+  .edit:hover{
+    cursor: pointer;
+    background-color: rgb(194, 240, 194);
+    color: red;
+  }
+
+  .error{
+    color: red;
+    background-color: white;
+    text-align: center;
   }

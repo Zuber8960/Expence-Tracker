@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Signup Page</title>
+  <title>Add Expence Page</title>
   <link rel="stylesheet" href="expence.css">
 </head>
 
@@ -18,26 +18,34 @@
   <section class="container">
     <form id="my-form">
 
-      <h1>Sign up :</h1>
+      <h1>Add Expence :</h1>
       <div class="msg"></div>
       <div id="div">
         <div class="data">
-          <label for="name">Name :</label>
-          <input type="text" id="name" name="name" placeholder="zuber">
+          <label for="amount">Choose Expence-Amount :</label>
+          <input type="number" id="amount" name="amount">
         </div>
         <div class="data">
-          <label for="email">Email :</label>
-          <input type="email" id="email" name="email" placeholder="zuberahmad123@gmail.com">
+          <label for="description">Choose Description :</label>
+          <input type="text" id="description" name="description">
         </div>
         <div class="data">
-          <label for="passward">Passward :</label>
-          <input type="password" id="passward" name="passward" placeholder="*****">
+          <label for="categary">Choose a Categary :</label>
+          <select name="categary" id="categary">
+            <option value="categary">Choose a categary</option>
+            <option value="Food">Food</option>
+            <option value="Grocery">Grocery</option>
+            <option value="Movie">Movie</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Fuel">Fuel</option>
+          </select>
         </div>
       </div>
-      <button type="click" id="btn" class="signup">SIGN UP</button>
-      <button type="click" id="btn" class="login">Existing user - Login</button>
+      <button type="click" id="btn" class="expence">Add Expence</button>
+
     </form>
 
+    <ul id="lists"></ul>
   </section>
 
 

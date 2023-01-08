@@ -1,71 +1,92 @@
 let form = document.getElementById('my-form');
-let massage = document.querySelector('.msg');
+const list = document.getElementById('lists');
+const backendApis = `http://localhost:3000/expence`;
+const massage = document.querySelector('.msg');
 
-form.addEventListener('click', (e) => {
+window.addEventListener('DOMContentLoaded', async () => {
+    console.log(`abc`);
+    try {
+        const result = await axios.get(`${backendApis}/get-expence`);
+        // console.log(result);
+        result.data.expences.forEach(element => {
+            console.log(element);
+            showExpenseOnScreen(element);
+        });
+    } catch (err) {
+        console.log(err);
+        document.body.innerHTML += `<div class="error">Something went wrong</div>`;
+    }
+})
+
+form.addEventListener('click', async (e) => {
     e.preventDefault();
-    if (e.target.className == 'signup') {
-        let name = document.getElementById('name').value;
-        let email = document.getElementById('email').value;
-        let passward = document.getElementById('passward').value;
+    if (e.target.className == "expence") {
+        const amount = e.target.parentNode.amount;
+        const description = e.target.parentNode.description;
+        const categary = e.target.parentNode.categary;
 
-        let obj = { name, email, passward };
-        // console.log(obj);
-        signUp();
-        async function signUp() {
-            try {
-                const responce = await axios.post('http://localhost:3000/user/sign-up', obj);
-                if (responce.status === 201) {
-                    return window.location.href = "./login.html";
-                } else if (responce.status == 200) {
-                    // console.log(responce)
-                    massage.innerHTML = responce.data.message;
-                    return setTimeout(() => {
-                        massage.innerHTML = "";
-                    }, 2000);
-                } else {
-                    throw new Error("Failed to login.");
-                }
-            } catch (err) {
-                console.log(`error ==> `, err);
-                document.body.innerHTML += `<div style="color:red; background-color:white; text-align:center;">${err.response.data.message}</div>`;
+        const obj = {
+            amount: amount.value,
+            description: description.value,
+            categary: categary.value
+        };
+        console.log(obj);
+
+        try {
+            const expence = await axios.post(`${backendApis}/add-expence`, obj);
+            console.log(expence.data);
+            if (!expence.data.success) {
+                massage.innerHTML = expence.data.message;
+                return setTimeout(() => {
+                    massage.innerHTML = "";
+                }, 2000);
             }
+            showExpenseOnScreen(expence.data.expence);
+            amount.value = null;
+            description.value = null;
+            categary.value = `categary`;
+
+        } catch (err) {
+            console.log(err);
+            document.body.innerHTML += `<div class="error">Something went wrong</div>`;
         }
     }
+})
 
-    if (e.target.className == 'login') {
-        return window.location.href = "./login.html";
-    }
-
-    if (e.target.className == 'goToLogin') {
-        let email = document.getElementById('email').value;
-        let passward = document.getElementById('passward').value;
-        let obj = { email, passward };
-        console.log(obj);
-        login();
-        async function login() {
+list.addEventListener('click', async (e) => {
+    if (e.target.className == "delete") {
+        if (confirm(`Are you sure !`)) {
             try {
-                const response = await axios.post(`http://localhost:3000/user/login`, obj);
-                console.log(response);
-                if (response.status == 201) {
-                    if (!response.data.success) {
-                        massage.innerHTML = response.data.message;
-                        return setTimeout(() => {
-                            massage.innerHTML = "";
-                        }, 2000);
-                    }
-                    return alert(`${response.data.message}`);
-                }
+                const li = e.target.parentNode;
+                const id = li.id;
+                // console.log(id);
+                const responce = await axios.post(`${backendApis}/delete-expence/${id}`);
+                console.log(responce);
+                list.removeChild(li);
             } catch (err) {
                 console.log(err);
-                document.body.innerHTML += `<div style="color:red; background-color:white; text-align:center;">${err.response.data.message}</div>`;
+                document.body.innerHTML += `<div class="error">Oops! Something went wrong.</div>`;
             }
-
         }
     }
+})
 
-    if (e.target.className == 'firstGoSignUp') {
-        return window.location.href = "./expence.html";
-    }
-});
+const showExpenseOnScreen = (obj) => {
+    let li = document.createElement('li');
+    li.setAttribute('id', obj.id);
+    li.innerHTML = `${obj.amount} - ${obj.description} - ${obj.categary}`;
+    delEdit(li);
+    list.appendChild(li);
+}
 
 
+const delEdit = (li) => {
+    const del = document.createElement('button');
+    del.classList.add("delete");
+    del.innerText = "Delete";
+    const edit = document.createElement('button');
+    edit.classList.add('edit');
+    edit.innerText = "Edit";
+    li.appendChild(del);
+    li.appendChild(edit);
+}

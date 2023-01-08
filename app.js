@@ -15,15 +15,17 @@ app.use(bodyParser.json({ extended: false }));
 
 app.use(cors());
 
+const userRoutes = require('./routes/user');
 const expenceRoutes = require('./routes/expence');
-const User = require('./models/user');
 
+// const User = require('./models/user');
 
 
 app.use(express.static(path.join(__dirname, 'frontend')));
 
-app.use('/user', expenceRoutes);
+app.use('/user', userRoutes);
 
+app.use('/expence', expenceRoutes);
 
 const port = 3000;
 

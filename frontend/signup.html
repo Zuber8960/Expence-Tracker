@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Signup Page</title>
+  <link rel="stylesheet" href="expence.css">
+</head>
+
+<body>
+  <header>
+    <h5>Designed by Zuber Ahmad.</h5>
+    <h1>Expence Tracker</h1>
+  </header>
+
+  <section class="container">
+    <form id="my-form">
+
+      <h1>Sign up :</h1>
+      <div class="msg"></div>
+      <div id="div">
+        <div class="data">
+          <label for="name">Name :</label>
+          <input type="text" id="name" name="name" placeholder="zuber">
+        </div>
+        <div class="data">
+          <label for="email">Email :</label>
+          <input type="email" id="email" name="email" placeholder="zuberahmad123@gmail.com">
+        </div>
+        <div class="data">
+          <label for="passward">Passward :</label>
+          <input type="password" id="passward" name="passward" placeholder="*****">
+        </div>
+      </div>
+      <button type="click" id="btn" class="signup">SIGN UP</button>
+      <button type="click" id="btn" class="login">Existing user - Login</button>
+    </form>
+
+  </section>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.js"></script>
+  <script src="user.js"></script>
+</body>
+
+</html>
