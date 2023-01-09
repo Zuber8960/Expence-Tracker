@@ -17,6 +17,8 @@ app.use(cors());
 
 const userRoutes = require('./routes/user');
 const expenceRoutes = require('./routes/expence');
+const User = require('./models/user');
+const Expence = require('./models/expence');
 
 // const User = require('./models/user');
 
@@ -27,9 +29,13 @@ app.use('/user', userRoutes);
 
 app.use('/expence', expenceRoutes);
 
+User.hasMany(Expence);
+Expence.belongsTo(User);
+
 const port = 3000;
 
 sequelize
+  // .sync({force : true})
   .sync()
   .then(() => {
     console.log(`listening to the port:${port}`);

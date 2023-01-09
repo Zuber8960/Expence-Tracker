@@ -54,6 +54,7 @@ form.addEventListener('click', (e) => {
                             massage.innerHTML = "";
                         }, 2000);
                     }
+                    localStorage.setItem("token",response.data.token);
                     alert(`${response.data.message}`);
                     return window.location.href = "./expence.html";
                 } else {

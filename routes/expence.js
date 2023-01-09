@@ -4,10 +4,12 @@ const router = express.Router();
 
 const expenceController = require('../controllers/expence');
 
-router.post('/add-expence', expenceController.addExpence);
+const userAuthentication = require('../middleware/auth');
 
-router.get('/get-expence', expenceController.getExpence);
+router.post('/add-expence', userAuthentication.againAuthenticate , expenceController.addExpence);
 
-router.post('/delete-expence/:id', expenceController.deleteExpence);
+router.get('/get-expence', userAuthentication.authenticate , expenceController.getExpence);
+
+router.post('/delete-expence/:id', userAuthentication.againAuthenticate  ,expenceController.deleteExpence);
 
 module.exports = router;

@@ -2,11 +2,13 @@ let form = document.getElementById('my-form');
 const list = document.getElementById('lists');
 const backendApis = `http://localhost:3000/expence`;
 const massage = document.querySelector('.msg');
+const token = localStorage.getItem("token");
+// console.log(token);
 
 window.addEventListener('DOMContentLoaded', async () => {
     console.log(`abc`);
     try {
-        const result = await axios.get(`${backendApis}/get-expence`);
+        const result = await axios.get(`${backendApis}/get-expence`, { headers : { "Authorization" : token}});
         // console.log(result);
         result.data.expences.forEach(element => {
             console.log(element);
@@ -33,7 +35,7 @@ form.addEventListener('click', async (e) => {
         console.log(obj);
 
         try {
-            const expence = await axios.post(`${backendApis}/add-expence`, obj);
+            const expence = await axios.post(`${backendApis}/add-expence`, {obj, authorization : token});
             console.log(expence.data);
             if (!expence.data.success) {
                 massage.innerHTML = expence.data.message;
@@ -60,7 +62,7 @@ list.addEventListener('click', async (e) => {
                 const li = e.target.parentNode;
                 const id = li.id;
                 // console.log(id);
-                const responce = await axios.post(`${backendApis}/delete-expence/${id}`);
+                const responce = await axios.post(`${backendApis}/delete-expence/${id}`, {authorization : token});
                 console.log(responce);
                 list.removeChild(li);
             } catch (err) {

@@ -1,5 +1,7 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const { get, use } = require('../routes/expence');
 
 exports.signUp = (req, res, next) => {
     const data = req.body;
@@ -30,6 +32,11 @@ exports.signUp = (req, res, next) => {
 
 }
 
+function generateAccessToken(id , name) {
+    return jwt.sign({ id : id, name: name} , "secretKey");
+}
+
+
 exports.login = async (req, res, next) => {
     try {
         let email = req.body.email;
@@ -49,7 +56,7 @@ exports.login = async (req, res, next) => {
                     console.log(err);
                 }
                 if (response) {
-                    return res.status(201).json({ success: true, message: `User : ${user[0].name} logged in successfully.` });
+                    return res.status(201).json({ success: true, message: `User : ${user[0].name} logged in successfully.` , token : generateAccessToken( user[0].id, user[0].name)});
                 } else {
                     return res.status(401).json({ success: false, message: `Error(401) : Entered wrong passward !` });
                 }
