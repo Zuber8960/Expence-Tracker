@@ -5,8 +5,8 @@ const User = require('../models/user');
 exports.authenticate = async (req, res, next) => {
     try{
         const token = req.header('Authorization');
-        // console.log(`token ===>` , token);
-        const data = jwt.verify(token , 'secretKey')
+        // console.log(`in authenticate page : token ===>` , token);
+        const data = jwt.verify(token , process.env.secretKey)
         console.log(data);
         const user = await User.findByPk(data.id);
         // console.log(`user`, user);
@@ -21,7 +21,7 @@ exports.againAuthenticate = async(req, res, next) => {
     try{
         const token = req.body.authorization;
         console.log(`token ===>` , token);
-        const data = jwt.verify(token , 'secretKey')
+        const data = jwt.verify(token , process.env.secretKey)
         console.log(data);
         const user = await User.findByPk(data.id);
         // console.log(`user`, user);

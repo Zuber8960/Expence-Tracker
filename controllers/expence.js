@@ -1,14 +1,15 @@
 const Expence = require('../models/expence');
-const jwt = require('jsonwebtoken');
 
 exports.addExpence = async (req, res, next) => {
     // console.log('ok not found');
-    const data = req.body.obj;
+    const data = req.body;
     // console.log(`data` , req.user);
     console.log(`id ==> ` , req.user.id);
 
-    if(data.amount == "" || data.description == "" || data.categary == ""){
+    if(data.amount == "" || data.description == "" || data.categary == "categary"){
         return  res.status(201).json({ success: false , message : `Please fill all feilds !` });
+    }else if(data.amount <= 0){
+        return  res.status(201).json({ success: false , message : `Please enter valid amount !` });
     }
     try {
         const expence = await Expence.create({
@@ -26,11 +27,12 @@ exports.addExpence = async (req, res, next) => {
 
 exports.getExpence = async (req, res, next) => {
     try {
+        console.log(req.user.isPremiumUser);
         const expences = await Expence.findAll({where : { userId : req.user.id}});
         // const expences = await Expence.findAll();
 
         // console.log(`abc`, expences);
-        res.status(200).json({ success: true, expences });
+        res.status(200).json({ success: true, expences , isPremiumUser: req.user.isPremiumUser});
     } catch (err) {
         console.log(err);
         res.status(500).json({ success: false, error: err });
@@ -52,7 +54,7 @@ exports.deleteExpence = async (req, res, next) => {
             return res.status(404).json({ success: false , message : `Expence doesn't exist.` });
         }
         const result = await exp[0].destroy();
-        console.log(`result ==>`, result);
+        // console.log(`result ==>`, result);
         res.status(200).json({ success: true , message: `Expence deleted successfully !` })
     } catch (err) {
         console.log(err);

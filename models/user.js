@@ -19,7 +19,8 @@ const User = sequelize.define('user', {
   passward: {
     type: Sequelize.STRING,
     allowNull: false
-  }
+  },
+  isPremiumUser: Sequelize.BOOLEAN
 });
 
 module.exports = User;

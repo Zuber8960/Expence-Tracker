@@ -1,7 +1,6 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { get, use } = require('../routes/expence');
 
 exports.signUp = (req, res, next) => {
     const data = req.body;
@@ -17,7 +16,8 @@ exports.signUp = (req, res, next) => {
             const user = await User.create({
                 name: data.name,
                 email: data.email,
-                passward: hash
+                isPremiumUser : false,
+                passward: hash,
             })
             return res.status(201).json({ success: true , user })
         } catch (err) {
@@ -33,7 +33,7 @@ exports.signUp = (req, res, next) => {
 }
 
 function generateAccessToken(id , name) {
-    return jwt.sign({ id : id, name: name} , "secretKey");
+    return jwt.sign({ id : id, name: name} , process.env.secretKey);
 }
 
 
@@ -42,7 +42,7 @@ exports.login = async (req, res, next) => {
         let email = req.body.email;
         let passward = req.body.passward;
         if (email == "" || passward == "") {
-            return res.status(201).json({ success: false, message: `Please fill all feilds !` });
+            return res.status(204).json({ success: false, message: `Please fill all feilds !`});
         }
         // console.log(email, passward);
 

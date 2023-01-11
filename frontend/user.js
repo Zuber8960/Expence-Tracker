@@ -41,22 +41,21 @@ form.addEventListener('click', (e) => {
         let email = document.getElementById('email').value;
         let passward = document.getElementById('passward').value;
         let obj = { email, passward };
-        console.log(obj);
+        // console.log(obj);
         login();
         async function login() {
             try {
                 const response = await axios.post(`${backendApis}/login`, obj);
-                console.log(response);
+                // console.log(response);
                 if (response.status == 201) {
-                    if (!response.data.success) {
-                        massage.innerHTML = response.data.message;
-                        return setTimeout(() => {
-                            massage.innerHTML = "";
-                        }, 2000);
-                    }
-                    localStorage.setItem("token",response.data.token);
+                    localStorage.setItem("token", response.data.token);
                     alert(`${response.data.message}`);
                     return window.location.href = "./expence.html";
+                } else if (response.status == 204) {
+                    massage.innerHTML = response.statusText;
+                    return setTimeout(() => {
+                        massage.innerHTML = "";
+                    }, 2500)
                 } else {
                     throw new Error("Failed to login.");
                 }
@@ -71,5 +70,5 @@ form.addEventListener('click', (e) => {
         return window.location.href = "./signup.html";
     }
 
-    
+
 });

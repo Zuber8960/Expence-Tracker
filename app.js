@@ -17,10 +17,10 @@ app.use(cors());
 
 const userRoutes = require('./routes/user');
 const expenceRoutes = require('./routes/expence');
+const purchaseRouter = require('./routes/purchase');
 const User = require('./models/user');
 const Expence = require('./models/expence');
-
-// const User = require('./models/user');
+const Order = require('./models/order');
 
 
 app.use(express.static(path.join(__dirname, 'frontend')));
@@ -29,8 +29,13 @@ app.use('/user', userRoutes);
 
 app.use('/expence', expenceRoutes);
 
+app.use('/purchase', purchaseRouter);
+
 User.hasMany(Expence);
 Expence.belongsTo(User);
+
+User.hasMany(Order);
+Order.belongsTo(User);
 
 const port = 3000;
 
