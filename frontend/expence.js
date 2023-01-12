@@ -4,7 +4,9 @@ const backendApis = `http://localhost:3000`;
 const massage = document.querySelector('.msg');
 const token = localStorage.getItem("token");
 const rzrPay = document.querySelector('#rzr-pay');
+const leaderBoard = document.querySelector('#leaderboard');
 const header = document.querySelector('header');
+const section = document.querySelector('.container');
 // console.log(token);
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -12,12 +14,12 @@ window.addEventListener('DOMContentLoaded', async () => {
     try {
         const result = await axios.get(`${backendApis}/expence/get-expence`, { headers: { "Authorization": token } });
         console.log(result);
-        if (result.data.isPremiumUser) {
-            rzrPay.style.display = 'none';
-            const h2 = document.createElement('h2');
-            h2.innerHTML = `👍 Great ! You are a premium user now.`
-            header.appendChild(h2);
+        if (result.data.user.isPremiumUser) {
+            premiumUserFunction();
+        } else {
+            leaderBoard.style.display = "none";
         }
+        showUserName(result.data.user);
         result.data.expences.forEach(element => {
             // console.log(element);
             showExpenseOnScreen(element);
@@ -110,10 +112,8 @@ rzrPay.addEventListener('click', async (e) => {
             }, { headers: { 'Authorization': token } })
             console.log(result);
 
-            rzrPay.style.display = 'none';
-            const h2 = document.createElement('h2');
-            h2.innerHTML = `👍 Great ! You are a premium user now.`
-            header.appendChild(h2);
+            premiumUserFunction();
+            leaderBoard.style.display = "block";
 
             alert('You are now premium user now.');
         }
@@ -132,7 +132,66 @@ rzrPay.addEventListener('click', async (e) => {
         }, { headers: { 'Authorization': token } });
         alert('Something went wrong !');
         rzpl.close();
-        
+
     })
 
 })
+
+function premiumUserFunction() {
+    rzrPay.style.display = 'none';
+    const h3 = document.createElement('h3');
+    h3.innerHTML = `👍 Great ! You are a premium user now.`
+    header.appendChild(h3);
+}
+
+
+const div = document.createElement('div');
+leaderBoard.addEventListener('click', () => {
+    // // console.log('hello leaderboard');
+
+    if (leaderBoard.innerText == "Show Leaderboard") {
+        leaderBoard.innerText = "Hide Leaderboard";
+        div.innerHTML = "";
+
+        const h4 = document.createElement('h4');
+        h4.innerText = "LeaderBoard";
+        const ul = document.createElement('ul');
+        ul.setAttribute('id', 'ulList');
+        div.appendChild(h4);
+        div.appendChild(ul);
+        section.appendChild(div);
+        showList();
+    } else if (leaderBoard.innerText == 'Hide Leaderboard') {
+        leaderBoard.innerText = "Show Leaderboard";
+        div.innerHTML = "";
+    }
+})
+
+
+async function showList() {
+    try {
+        const result = await axios.get(`${backendApis}/premium/show-leaderBoard`);
+        // console.log(result);
+        const ulTag = document.getElementById('ulList');
+        result.data.data.forEach(data => {
+            console.log(data);
+            const li = document.createElement('li');
+            li.innerHTML = `Name : ${data.name} , Total-Amount : ${data.total_amount}`;
+            ulTag.appendChild(li);
+        })
+    } catch (err) {
+        console.log(err);
+        document.body.innerHTML += `<div class="error">Oops! Something went wrong.</div>`;
+    }
+}
+
+
+function showUserName(user) {
+    const userName = document.createElement('label');
+    userName.innerText = user.name;
+    userName.setAttribute('id', 'userName');
+    header.appendChild(userName);
+}
+
+
+

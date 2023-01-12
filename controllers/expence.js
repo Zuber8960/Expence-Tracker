@@ -32,7 +32,7 @@ exports.getExpence = async (req, res, next) => {
         // const expences = await Expence.findAll();
 
         // console.log(`abc`, expences);
-        res.status(200).json({ success: true, expences , isPremiumUser: req.user.isPremiumUser});
+        res.status(200).json({ success: true, expences , user: req.user});
     } catch (err) {
         console.log(err);
         res.status(500).json({ success: false, error: err });
