@@ -70,5 +70,9 @@ form.addEventListener('click', (e) => {
         return window.location.href = "./signup.html";
     }
 
+    if(e.target.className == 'forgotPassward'){
+        console.log(`hello forgeotPass`);
+        window.location.href = "./forgotPassward/index.html";
+    }
 
 });

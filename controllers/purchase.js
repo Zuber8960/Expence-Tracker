@@ -21,12 +21,12 @@ exports.premiumMembership = async (req, res, next) => {
                 console.log(`user's orderID ==> ${order.id}`);
                 return res.status(201).json({ order, key_id: rzp.key_id });
             } catch (err) {
-                console, log(`error ==>`, err)
+                console.log(`error ==>`, err)
                 throw new Error(err);
             }
         })
     } catch (err) {
-        console, log(`error ==>`, err)
+        console.log(`error ==>`, err)
         throw new Error(err);
     }
 }

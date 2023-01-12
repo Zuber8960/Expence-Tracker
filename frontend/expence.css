@@ -46,7 +46,7 @@
     border: 1px solid #ccc;
   }
   
-  #btn,
+  #my-form button,
   #rzr-pay {
     display: block;
     width: 100%;
@@ -57,7 +57,7 @@
     border-radius: 5px;
     margin: 10px auto;
   }
-  #btn:hover,
+  #my-form button:hover,
   #rzr-pay:hover,
   #leaderboard:hover{
     cursor: pointer;
