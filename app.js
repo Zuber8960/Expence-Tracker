@@ -23,6 +23,7 @@ const passwardRouter = require('./routes/passward');
 const User = require('./models/user');
 const Expence = require('./models/expence');
 const Order = require('./models/order');
+const ForgotPassward = require('./models/forgotPassward');
 
 
 app.use(express.static(path.join(__dirname, 'frontend')));
@@ -43,6 +44,9 @@ Expence.belongsTo(User);
 
 User.hasMany(Order);
 Order.belongsTo(User);
+
+User.hasMany(ForgotPassward);
+ForgotPassward.belongsTo(User);
 
 const port = 3000;
 
