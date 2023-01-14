@@ -67,3 +67,7 @@ exports.login = async (req, res, next) => {
         res.status(400).json({ error: err });
     }
 }
+
+exports.download = (req, res, next) => {
+    console.log(`123` , req.user);
+}

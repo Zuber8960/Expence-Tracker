@@ -7,6 +7,8 @@ const rzrPay = document.querySelector('#rzr-pay');
 const leaderBoard = document.querySelector('#leaderboard');
 const header = document.querySelector('header');
 const section = document.querySelector('.container');
+const downloadButton = document.getElementById('downloadexpense');
+
 // console.log(token);
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -18,6 +20,7 @@ window.addEventListener('DOMContentLoaded', async () => {
             premiumUserFunction();
         } else {
             leaderBoard.style.display = "none";
+            downloadButton.style.display = "none";
         }
         showUserName(result.data.user);
         result.data.expences.forEach(element => {
@@ -195,3 +198,17 @@ function showUserName(user) {
 
 
 
+function downloadExpence(){
+    axios.get('http://localhost:3000/user/download', { headers: {"Authorization" : token} })
+    .then((response) => {
+        if(response.status === 201){
+            console.log(response);
+        } else {
+            throw new Error(response.data.message)
+        }
+
+    })
+    .catch((err) => {
+        showError(err)
+    });
+}
