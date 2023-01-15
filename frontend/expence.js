@@ -8,6 +8,8 @@ const leaderBoard = document.querySelector('#leaderboard');
 const header = document.querySelector('header');
 const section = document.querySelector('.container');
 const downloadButton = document.getElementById('downloadexpense');
+const downloadFilesButton = document.getElementById('showDownloadedFile');
+const divForFiles = document.getElementById('bucket');
 
 // console.log(token);
 
@@ -21,6 +23,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         } else {
             leaderBoard.style.display = "none";
             downloadButton.style.display = "none";
+            downloadFilesButton.style.display = "none";
         }
         showUserName(result.data.user);
         result.data.expences.forEach(element => {
@@ -198,17 +201,55 @@ function showUserName(user) {
 
 
 
-function downloadExpence(){
-    axios.get('http://localhost:3000/user/download', { headers: {"Authorization" : token} })
-    .then((response) => {
-        if(response.status === 201){
+async function downloadExpence() {
+    try {
+        const response = await axios.get('http://localhost:3000/user/download', { headers: { "Authorization": token } });
+        if (response.status === 200) {
             console.log(response);
+            let a = document.createElement("a");
+            a.href = response.data.fileURL;
+            a.download = 'myexpence.csv';
+            a.click();
+            console.log(`file downloaded`);
         } else {
-            throw new Error(response.data.message)
+            throw new Error(response.data.message);
         }
+    }
+    catch (err) {
+        document.body.innerHTML += `<div class="error">Oops! Something went wrong.</div>`;
+        throw new Error(err);
+    };
+}
 
-    })
-    .catch((err) => {
-        showError(err)
-    });
+
+async function previousfileDownloaded() {
+    if(downloadFilesButton.innerText == "Show Download Files"){
+        downloadFilesButton.innerText = "Hide Files";
+        try {
+            const responce = await axios.get(`${backendApis}/user/oldFiles`, { headers: { 'Authorization': token } });
+            if(responce.status == 200){
+                const ul = document.createElement('ul');
+                divForFiles.appendChild(ul);
+                if(!responce.data.allFiles.length){
+                    ul.innerHTML = `No files downloaded till now.`;
+                    return;
+                }
+                responce.data.allFiles.forEach(file => {
+                    const li = document.createElement('li');
+                    const date = file.createdAt.split('T')[0].split('-').reverse().join('-');
+                    li.innerHTML = `${date} - <a href="${file.fileURL}">Details</a>`;
+                    ul.appendChild(li);
+                })
+            }else{
+                throw new Error(err);
+            }
+            
+        } catch (err) {
+            console.log(err);
+            document.body.innerHTML += `<div class="error">Oops! Something went wrong.</div>`;
+        }
+    }else if(downloadFilesButton.innerText == "Hide Files"){
+        downloadFilesButton.innerText = "Show Download Files";
+        divForFiles.innerHTML ="";
+    }
 }

@@ -20,10 +20,12 @@ const expenceRoutes = require('./routes/expence');
 const purchaseRouter = require('./routes/purchase');
 const premiumRouter = require('./routes/premium');
 const passwardRouter = require('./routes/passward');
+
 const User = require('./models/user');
 const Expence = require('./models/expence');
 const Order = require('./models/order');
 const ForgotPassward = require('./models/forgotPassward');
+const Filedownloaded = require('./models/filedownloaded');
 
 
 app.use(express.static(path.join(__dirname, 'frontend')));
@@ -47,6 +49,9 @@ Order.belongsTo(User);
 
 User.hasMany(ForgotPassward);
 ForgotPassward.belongsTo(User);
+
+User.hasMany(Filedownloaded);
+Filedownloaded.belongsTo(User);
 
 const port = 3000;
 

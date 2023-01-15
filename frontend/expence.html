@@ -45,10 +45,14 @@
       
     </form>
     <button type="click" id="rzr-pay">Buy Premium</button>
-    <button onclick="downloadExpence()" id="downloadexpense">Download File</button>
       <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <ul id="lists"></ul>
+    <button onclick="downloadExpence()" id="downloadexpense">Download File</button>
+    <div>
+      <button onclick="previousfileDownloaded()" id="showDownloadedFile" >Show Download Files</button>
+      <div id="bucket"></div>
+    </div>
   </section>
   
 

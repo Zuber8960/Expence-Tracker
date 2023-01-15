@@ -113,3 +113,20 @@
     background-color: #333;
     color: white;
   }
+
+  #downloadexpense,
+  #showDownloadedFile{
+    float:right;
+    padding: 10px 15px;
+    border: 0;
+    background: #333;
+    color: #fff;
+    border-radius: 5px;
+    margin: 10px 3px;
+  }
+
+  #showDownloadedFile:hover,
+  #downloadexpense:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+  }
