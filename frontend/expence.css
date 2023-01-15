@@ -1,132 +1,153 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: Arial, Helvetica, sans-serif;
-    line-height: 1.6;
-    background-color: rgba(38, 131, 168, 0.726);
-    }
-  
-  header {
-    background: #c05e5e;
-    padding: 1rem;
-    text-align: center;
-  }
-  
-  .container {
-    padding: 3rem 2rem;
-  }
-  
-  #my-form {
-    padding: 1rem;
-    background: #c05e5e;
-  }
-  
-  #my-form label {
-    display: block;
-    font-weight: 700;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  #my-form input{
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px; 
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  #categary{
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  #my-form button,
-  #rzr-pay {
-    display: block;
-    width: 100%;
-    padding: 10px 15px;
-    border: 0;
-    background: #333;
-    color: #fff;
-    border-radius: 5px;
-    margin: 10px auto;
-  }
-  #my-form button:hover,
-  #rzr-pay:hover,
-  #leaderboard:hover{
-    cursor: pointer;
-    transform: scale(1.03);
-  }
-  #leaderboard{
-    padding: 10px 15px;
-    border: 0;
-    background: #333;
-    color: #fff;
-    border-radius: 5px;
-    margin: 10px auto;
-  }
-  #div{
-    margin: auto;
-    display: flex;
-  }
-  .data{
-    margin: auto;
-  }
-  .msg{
-    background-color: red;
-    color: white;
-    text-align: center;
-  }
-  .delete,
-  .edit{
-    font-weight: 800;
-    color: white;
-    background-color: #c05e5e;
-    padding: 8px;
-    margin: 2px 4px;
-    border: 1px solid #ccc;
-  }
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  background-color: rgba(38, 131, 168, 0.726);
+}
 
-  .delete:hover,
-  .edit:hover{
-    cursor: pointer;
-    background-color: rgb(194, 240, 194);
-    color: red;
-  }
+header {
+  background: #c05e5e;
+  padding: 1rem;
+  text-align: center;
+}
 
-  .error{
-    color: red;
-    background-color: white;
-    text-align: center;
-  }
+.container {
+  padding: 3rem 2rem;
+}
 
-  #userName{
-    /* color: red; */
-    margin-right: -90%;
-    padding: 5px;
-    background-color: #333;
-    color: white;
-  }
+#my-form {
+  padding: 1rem;
+  background: #c05e5e;
+}
 
-  #downloadexpense,
-  #showDownloadedFile{
-    float:right;
-    padding: 10px 15px;
-    border: 0;
-    background: #333;
-    color: #fff;
-    border-radius: 5px;
-    margin: 10px 3px;
-  }
+#my-form label {
+  display: block;
+  font-weight: 700;
+}
 
-  #showDownloadedFile:hover,
-  #downloadexpense:hover{
-    transform: scale(1.1);
-    cursor: pointer;
-  }
+#my-form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+#categary {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+#my-form button,
+#rzr-pay {
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  border: 0;
+  background: #333;
+  color: #fff;
+  border-radius: 5px;
+  margin: 10px auto;
+}
+
+#my-form button:hover,
+#rzr-pay:hover,
+#leaderboard:hover {
+  cursor: pointer;
+  transform: scale(1.03);
+}
+
+#leaderboard {
+  padding: 10px 15px;
+  border: 0;
+  background: #333;
+  color: #fff;
+  border-radius: 5px;
+  margin: 10px auto;
+}
+
+#div {
+  margin: auto;
+  display: flex;
+}
+
+.data {
+  margin: auto;
+}
+
+.msg {
+  background-color: red;
+  color: white;
+  text-align: center;
+}
+
+.delete,
+.edit {
+  font-weight: 800;
+  color: white;
+  background-color: #c05e5e;
+  padding: 8px;
+  margin: 2px 4px;
+  border: 1px solid #ccc;
+}
+
+.delete:hover,
+.edit:hover {
+  cursor: pointer;
+  background-color: rgb(194, 240, 194);
+  color: red;
+}
+
+.error {
+  color: red;
+  background-color: white;
+  text-align: center;
+}
+
+#userName {
+  /* color: red; */
+  margin-right: -90%;
+  /* float: left; */
+  padding: 5px;
+  background-color: #333;
+  color: white;
+}
+
+#downloadexpense,
+#showDownloadedFile {
+  float: right;
+  padding: 10px 15px;
+  border: 0;
+  background: #333;
+  color: #fff;
+  border-radius: 5px;
+  margin: 10px 3px;
+}
+
+#showDownloadedFile:hover,
+#downloadexpense:hover ,
+.pegination:hover{
+  transform: scale(1.1);
+  cursor: pointer;
+}
+#pagination{
+  text-align: center;
+}
+.pegination {
+  background: #333;
+  color: #fff;
+  border-radius: 2px;
+  margin: 2px;
+  padding: 5px;
+}
+.pegination h3{
+  padding : 10px 2px;
+}

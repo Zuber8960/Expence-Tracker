@@ -25,14 +25,35 @@ exports.addExpence = async (req, res, next) => {
     }
 }
 
+const exp_per_page = 10;
+
 exports.getExpence = async (req, res, next) => {
     try {
-        console.log(req.user.isPremiumUser);
-        const expences = await Expence.findAll({where : { userId : req.user.id}});
+        const page = +req.query.page || 1;
+        const totalExp = await req.user.getExpences();
+        console.log(`total ====>` , totalExp.length);
+
+        // console.log(req.user.isPremiumUser);
+        const expences = await req.user.getExpences({
+            offset: (page-1) * exp_per_page,
+            limit: exp_per_page,
+        });
         // const expences = await Expence.findAll();
 
         // console.log(`abc`, expences);
-        res.status(200).json({ success: true, expences , user: req.user});
+        return res.status(200).json({ 
+            success: true,
+            expences ,
+            isPremium: req.user.isPremiumUser,
+            name: req.user.name,
+
+            currentPage: page,
+            hasNextPage: exp_per_page* page < totalExp.length,
+            nextPage : page + 1,
+            hasPreviousPage: page > 1,
+            previousPage: page - 1,
+            lastPage : Math.ceil(totalExp.length / exp_per_page),
+        });
     } catch (err) {
         console.log(err);
         res.status(500).json({ success: false, error: err });

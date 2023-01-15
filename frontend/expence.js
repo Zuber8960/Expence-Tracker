@@ -10,26 +10,30 @@ const section = document.querySelector('.container');
 const downloadButton = document.getElementById('downloadexpense');
 const downloadFilesButton = document.getElementById('showDownloadedFile');
 const divForFiles = document.getElementById('bucket');
+const pagination = document.getElementById('pagination');
 
 // console.log(token);
 
 window.addEventListener('DOMContentLoaded', async () => {
     console.log(`abc`);
     try {
-        const result = await axios.get(`${backendApis}/expence/get-expence`, { headers: { "Authorization": token } });
-        console.log(result);
-        if (result.data.user.isPremiumUser) {
+        const page = 1;
+        const result = await axios.get(`${backendApis}/expence/get-expence?page=${page}`, { headers: { "Authorization": token } });
+        // console.log(result);
+        if (result.data.isPremium) {
             premiumUserFunction();
         } else {
             leaderBoard.style.display = "none";
             downloadButton.style.display = "none";
             downloadFilesButton.style.display = "none";
         }
-        showUserName(result.data.user);
+        showUserName(result.data.name);
         result.data.expences.forEach(element => {
             // console.log(element);
             showExpenseOnScreen(element);
         });
+        showPagination(result.data);
+
     } catch (err) {
         console.log(err);
         document.body.innerHTML += `<div class="error">Something went wrong</div>`;
@@ -152,20 +156,20 @@ function premiumUserFunction() {
 
 
 const div = document.createElement('div');
+section.appendChild(div);
+
 leaderBoard.addEventListener('click', () => {
     // // console.log('hello leaderboard');
 
     if (leaderBoard.innerText == "Show Leaderboard") {
         leaderBoard.innerText = "Hide Leaderboard";
         div.innerHTML = "";
-
         const h4 = document.createElement('h4');
         h4.innerText = "LeaderBoard";
         const ul = document.createElement('ul');
         ul.setAttribute('id', 'ulList');
         div.appendChild(h4);
         div.appendChild(ul);
-        section.appendChild(div);
         showList();
     } else if (leaderBoard.innerText == 'Hide Leaderboard') {
         leaderBoard.innerText = "Show Leaderboard";
@@ -192,9 +196,9 @@ async function showList() {
 }
 
 
-function showUserName(user) {
+function showUserName(name) {
     const userName = document.createElement('label');
-    userName.innerText = user.name;
+    userName.innerText = name;
     userName.setAttribute('id', 'userName');
     header.appendChild(userName);
 }
@@ -223,14 +227,14 @@ async function downloadExpence() {
 
 
 async function previousfileDownloaded() {
-    if(downloadFilesButton.innerText == "Show Download Files"){
+    if (downloadFilesButton.innerText == "Show Download Files") {
         downloadFilesButton.innerText = "Hide Files";
         try {
             const responce = await axios.get(`${backendApis}/user/oldFiles`, { headers: { 'Authorization': token } });
-            if(responce.status == 200){
+            if (responce.status == 200) {
                 const ul = document.createElement('ul');
                 divForFiles.appendChild(ul);
-                if(!responce.data.allFiles.length){
+                if (!responce.data.allFiles.length) {
                     ul.innerHTML = `No files downloaded till now.`;
                     return;
                 }
@@ -240,16 +244,93 @@ async function previousfileDownloaded() {
                     li.innerHTML = `${date} - <a href="${file.fileURL}">Details</a>`;
                     ul.appendChild(li);
                 })
-            }else{
+            } else {
                 throw new Error(err);
             }
-            
+
         } catch (err) {
             console.log(err);
             document.body.innerHTML += `<div class="error">Oops! Something went wrong.</div>`;
         }
-    }else if(downloadFilesButton.innerText == "Hide Files"){
+    } else if (downloadFilesButton.innerText == "Hide Files") {
         downloadFilesButton.innerText = "Show Download Files";
-        divForFiles.innerHTML ="";
+        divForFiles.innerHTML = "";
     }
+}
+
+function showPagination({
+    currentPage,
+    hasNextPage,
+    nextPage,
+    hasPreviousPage ,
+    previousPage ,
+    lastPage ,
+}) {
+    pagination.innerHTML = "" ;
+    if(currentPage !=1 && previousPage!=1){
+        const btn = document.createElement('button');
+        btn.innerText = 1;
+        btn.className = "pegination";
+        btn.addEventListener('click' , () => {
+            list.innerHTML = "";
+            gettingAllExpence(1);
+        })
+        const span = document.createElement('span');
+        span.innerText = '......';
+        pagination.appendChild(btn);
+        pagination.appendChild(span);
+    } 
+    if(hasPreviousPage){
+        const btn = document.createElement('button');
+        btn.innerText = previousPage;
+        btn.className = "pegination";
+        btn.addEventListener('click' , () => {
+            list.innerHTML = "";
+            gettingAllExpence(previousPage);
+        })
+        pagination.appendChild(btn);
+    }
+    const btn2 = document.createElement('button');
+    btn2.className = "pegination";
+    btn2.innerHTML = `<h3>${currentPage}</h3>`;
+    btn2.addEventListener('click' , () => {
+        list.innerHTML = "";
+        gettingAllExpence(currentPage);
+    })
+    pagination.appendChild(btn2);
+    if(hasNextPage){
+        const btn = document.createElement('button');
+        btn.innerText = nextPage;
+        btn.className = "pegination";
+        btn.addEventListener('click' , () => {
+            list.innerHTML = "";
+            gettingAllExpence(nextPage);
+        })
+        pagination.appendChild(btn);
+    }
+    if(nextPage != lastPage && currentPage != lastPage){
+        const btn = document.createElement('button');
+        btn.innerText = lastPage;
+        btn.className = "pegination";
+        btn.addEventListener('click' , () => {
+            list.innerHTML = "";
+            gettingAllExpence(lastPage);
+        })
+        const span = document.createElement('span');
+        span.innerText = '......';
+        pagination.appendChild(span);
+        pagination.appendChild(btn);
+    } 
+}
+
+
+async function gettingAllExpence(page){
+    const result = await axios.get(`${backendApis}/expence/get-expence?page=${page}`, { headers: { "Authorization": token } });
+
+    result.data.expences.forEach(element => {
+        // console.log(element);
+        showExpenseOnScreen(element);
+    });
+    showPagination(result.data);
+
 }
