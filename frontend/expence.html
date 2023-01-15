@@ -45,8 +45,18 @@
       
     </form>
     <button type="click" id="rzr-pay">Buy Premium</button>
-      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
+    
+    <div id="perPage">
+      <label for="rows">Rows per page</label>
+      <select name="rows" id="rows">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+      <button id="setRows">Set</button>
+    </div>
     <ul id="lists"></ul>
     <div id="pagination"></div>
     <button onclick="downloadExpence()" id="downloadexpense">Download File</button>
@@ -56,6 +66,7 @@
     </div>
   </section>
   
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.js"></script>
   <script src="expence.js"></script>

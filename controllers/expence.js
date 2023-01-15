@@ -25,10 +25,11 @@ exports.addExpence = async (req, res, next) => {
     }
 }
 
-const exp_per_page = 10;
 
 exports.getExpence = async (req, res, next) => {
     try {
+        let exp_per_page = +(req.body.numberOfRows) || 10;
+
         const page = +req.query.page || 1;
         const totalExp = await req.user.getExpences();
         console.log(`total ====>` , totalExp.length);
@@ -48,7 +49,7 @@ exports.getExpence = async (req, res, next) => {
             name: req.user.name,
 
             currentPage: page,
-            hasNextPage: exp_per_page* page < totalExp.length,
+            hasNextPage: exp_per_page * page < totalExp.length,
             nextPage : page + 1,
             hasPreviousPage: page > 1,
             previousPage: page - 1,

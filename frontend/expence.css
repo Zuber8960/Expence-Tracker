@@ -89,8 +89,7 @@ header {
   text-align: center;
 }
 
-.delete,
-.edit {
+.delete{
   font-weight: 800;
   color: white;
   background-color: #c05e5e;
@@ -150,4 +149,8 @@ header {
 }
 .pegination h3{
   padding : 10px 2px;
+}
+
+#perPage{
+  float: right;
 }

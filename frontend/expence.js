@@ -13,12 +13,15 @@ const divForFiles = document.getElementById('bucket');
 const pagination = document.getElementById('pagination');
 
 // console.log(token);
+const numberOfRows = localStorage.getItem('numberOfRows');
 
 window.addEventListener('DOMContentLoaded', async () => {
     console.log(`abc`);
     try {
         const page = 1;
-        const result = await axios.get(`${backendApis}/expence/get-expence?page=${page}`, { headers: { "Authorization": token } });
+        const result = await axios.post(`${backendApis}/expence/get-expence?page=${page}`, { numberOfRows: numberOfRows } , { headers: { "Authorization": token } } );
+
+        document.getElementById('rows').value = numberOfRows;
         // console.log(result);
         if (result.data.isPremium) {
             premiumUserFunction();
@@ -325,7 +328,7 @@ function showPagination({
 
 
 async function gettingAllExpence(page){
-    const result = await axios.get(`${backendApis}/expence/get-expence?page=${page}`, { headers: { "Authorization": token } });
+    const result = await axios.post(`${backendApis}/expence/get-expence?page=${page}` , { numberOfRows: numberOfRows } , { headers: { "Authorization": token } });
 
     result.data.expences.forEach(element => {
         // console.log(element);
@@ -334,3 +337,13 @@ async function gettingAllExpence(page){
     showPagination(result.data);
 
 }
+
+const row = document.getElementById('setRows');
+
+row.addEventListener('click' , () => {
+    const numberOfRow = document.getElementById('rows').value;
+    console.log(numberOfRow);
+
+    localStorage.setItem('numberOfRows' , numberOfRow);
+
+})
