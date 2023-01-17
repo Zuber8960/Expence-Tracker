@@ -19,15 +19,15 @@ exports.premiumMembership = async (req, res, next) => {
                 }
                 await req.user.createOrder({ orderId: order.id, status: 'PENDING' });
                 console.log(`user's orderID ==> ${order.id}`);
-                return res.status(201).json({ order, key_id: rzp.key_id });
+                return res.status(201).json({ success : true , order, key_id: rzp.key_id });
             } catch (err) {
-                console.log(`error ==>`, err)
-                throw new Error(err);
+                console.log(`error ==>`, err);
+                return res.status(404).json({success : false , message : 'Something went wrong' });
             }
         })
     } catch (err) {
-        console.log(`error ==>`, err)
-        throw new Error(err);
+        console.log(`error ==>`, err);
+        return res.status(404).json({success : false , message : 'Something went wrong' });
     }
 }
 
@@ -50,6 +50,6 @@ exports.updateTransection = async (req, res, next) => {
 
     } catch (err) {
         console.log(err);
-        throw new Error(err);
+        return res.status(404).json({success : false , message : 'Something went wrong' });
     }
 }

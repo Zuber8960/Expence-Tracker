@@ -23,12 +23,13 @@ exports.forgetPassward = async (req, res, next) => {
 
             const msg = {
                 to: user.email, // Change to your recipient
-                from: 'zuberahmad8960@gmail.com', // Change to your verified sender
+                from: process.env.email, // Change to your verified sender
                 subject: 'for Practice',
                 text: 'and easy to do anywhere, even with Node.js',
                 html: `<a href="http://localhost:3000/passward/resetpassward/${id}">Reset password</a>`
             }
             console.log("massage ===>", msg);
+            console.log(`check this link for reset passward =======> ${msg.html}`);
 
             sgMail
                 .send(msg)
@@ -36,7 +37,7 @@ exports.forgetPassward = async (req, res, next) => {
                     console.log("okkkk ------------------------->");
                     // console.log(response[0].statusCode)
                     // console.log(response[0].headers);
-                    console.log(response);
+                    // console.log(response);
                     return res.status(response[0].statusCode).json({ message: 'Link to reset password sent to your mail ', sucess: true })
                 })
                 .catch((error) => {

@@ -32,7 +32,8 @@ exports.getExpence = async (req, res, next) => {
 
         const page = +req.query.page || 1;
         const totalExp = await req.user.getExpences();
-        console.log(`total ====>` , totalExp.length);
+        const numberOfTotalExp = totalExp.length;
+        console.log(`total ====>` , numberOfTotalExp);
 
         // console.log(req.user.isPremiumUser);
         const expences = await req.user.getExpences({
@@ -49,11 +50,11 @@ exports.getExpence = async (req, res, next) => {
             name: req.user.name,
 
             currentPage: page,
-            hasNextPage: exp_per_page * page < totalExp.length,
+            hasNextPage: exp_per_page * page < numberOfTotalExp,
             nextPage : page + 1,
             hasPreviousPage: page > 1,
             previousPage: page - 1,
-            lastPage : Math.ceil(totalExp.length / exp_per_page),
+            lastPage : Math.ceil(numberOfTotalExp / exp_per_page),
         });
     } catch (err) {
         console.log(err);
@@ -62,13 +63,13 @@ exports.getExpence = async (req, res, next) => {
 }
 
 exports.deleteExpence = async (req, res, next) => {
-    const id = req.params.id;
+    const {id} = req.params;
     // console.log(`user ==>`,req.user)
     if(!id){
         return res.status(404).json({ success: false , message : `id is missing.` });
     }
     try {
-        const exp = await Expence.findAll({ where : { userId : req.user.id , id : id}})
+        const exp = await req.user.getExpences({ where : { id : id}})
         // console.log(`data ==>`, exp);
         // const exp = await data.findByPk(id);
         // console.log(`exp ==>` , exp);

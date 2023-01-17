@@ -11,6 +11,7 @@ const downloadButton = document.getElementById('downloadexpense');
 const downloadFilesButton = document.getElementById('showDownloadedFile');
 const divForFiles = document.getElementById('bucket');
 const pagination = document.getElementById('pagination');
+const premiumDiv = document.getElementById('forPremium');
 
 // console.log(token);
 const numberOfRows = localStorage.getItem('numberOfRows');
@@ -26,11 +27,16 @@ window.addEventListener('DOMContentLoaded', async () => {
         if (result.data.isPremium) {
             premiumUserFunction();
         } else {
-            leaderBoard.style.display = "none";
-            downloadButton.style.display = "none";
-            downloadFilesButton.style.display = "none";
+            rzrPay.style.display = "block";
         }
+        
+        logout();
+
         showUserName(result.data.name);
+        if(!result.data.expences.length){
+            document.getElementById('perPage').style.display = 'none';
+            return;
+        }
         result.data.expences.forEach(element => {
             // console.log(element);
             showExpenseOnScreen(element);
@@ -99,9 +105,10 @@ list.addEventListener('click', async (e) => {
 const showExpenseOnScreen = (obj) => {
     let li = document.createElement('li');
     li.setAttribute('id', obj.id);
+    li.className = 'litag';
     li.innerHTML = `${obj.amount} - ${obj.description} - ${obj.categary}`;
     const del = document.createElement('button');
-    del.classList.add("delete");
+    del.className = "delete";
     del.innerText = "Delete";
     li.appendChild(del);
     list.appendChild(li);
@@ -126,7 +133,6 @@ rzrPay.addEventListener('click', async (e) => {
             console.log(result);
 
             premiumUserFunction();
-            leaderBoard.style.display = "block";
 
             alert('You are now premium user now.');
         }
@@ -152,9 +158,13 @@ rzrPay.addEventListener('click', async (e) => {
 
 function premiumUserFunction() {
     rzrPay.style.display = 'none';
+    leaderBoard.style.display = "block";
+    downloadButton.style.display = "block";
+    downloadFilesButton.style.display = "block";
+
     const h3 = document.createElement('h3');
     h3.innerHTML = `👍 Great ! You are a premium user now.`
-    header.appendChild(h3);
+    premiumDiv.appendChild(h3);
 }
 
 
@@ -164,17 +174,17 @@ section.appendChild(div);
 leaderBoard.addEventListener('click', () => {
     // // console.log('hello leaderboard');
 
-    if (leaderBoard.innerText == "Show Leaderboard") {
+    if (leaderBoard.innerText != "Hide Leaderboard") {
         leaderBoard.innerText = "Hide Leaderboard";
-        div.innerHTML = "";
         const h4 = document.createElement('h4');
-        h4.innerText = "LeaderBoard";
-        const ul = document.createElement('ul');
+        h4.innerText = "LeaderBoard ------";
+        const ul = document.createElement('ol');
         ul.setAttribute('id', 'ulList');
+        ul.style.width = "500px";
         div.appendChild(h4);
         div.appendChild(ul);
         showList();
-    } else if (leaderBoard.innerText == 'Hide Leaderboard') {
+    } else{
         leaderBoard.innerText = "Show Leaderboard";
         div.innerHTML = "";
     }
@@ -189,7 +199,8 @@ async function showList() {
         result.data.data.forEach(data => {
             console.log(data);
             const li = document.createElement('li');
-            li.innerHTML = `Name : ${data.name} , Total-Amount : ${data.total_amount}`;
+            li.className = "litag"
+            li.innerHTML = `<b>Name : ${data.name} , Total-Expence : ${data.total_amount}</b>`;
             ulTag.appendChild(li);
         })
     } catch (err) {
@@ -203,7 +214,7 @@ function showUserName(name) {
     const userName = document.createElement('label');
     userName.innerText = name;
     userName.setAttribute('id', 'userName');
-    header.appendChild(userName);
+    premiumDiv.appendChild(userName);   
 }
 
 
@@ -230,21 +241,23 @@ async function downloadExpence() {
 
 
 async function previousfileDownloaded() {
-    if (downloadFilesButton.innerText == "Show Download Files") {
+    if (downloadFilesButton.innerText != "Hide Files") {
         downloadFilesButton.innerText = "Hide Files";
         try {
             const responce = await axios.get(`${backendApis}/user/oldFiles`, { headers: { 'Authorization': token } });
             if (responce.status == 200) {
                 const ul = document.createElement('ul');
+                ul.style.width = "200px";
                 divForFiles.appendChild(ul);
                 if (!responce.data.allFiles.length) {
-                    ul.innerHTML = `No files downloaded till now.`;
+                    ul.innerHTML = `<b>No files Exist !</b>`;
                     return;
                 }
                 responce.data.allFiles.forEach(file => {
                     const li = document.createElement('li');
+                    li.className = 'litag';
                     const date = file.createdAt.split('T')[0].split('-').reverse().join('-');
-                    li.innerHTML = `${date} - <a href="${file.fileURL}">Details</a>`;
+                    li.innerHTML = `<b>${date} - <a href="${file.fileURL}">Details</a></b>`;
                     ul.appendChild(li);
                 })
             } else {
@@ -342,8 +355,25 @@ const row = document.getElementById('setRows');
 
 row.addEventListener('click' , () => {
     const numberOfRow = document.getElementById('rows').value;
-    console.log(numberOfRow);
-
     localStorage.setItem('numberOfRows' , numberOfRow);
-
+    return window.location.reload();
 })
+
+function logout(){
+    const div = document.createElement('div');
+    const logoutButton = document.createElement('button');
+    logoutButton.innerText = 'Logout';
+    logoutButton.className = 'logout';
+    div.appendChild(logoutButton);
+    section.appendChild(div);
+}
+
+
+section.addEventListener('click' , (e) => {
+    if(e.target.className == 'logout'){
+        localStorage.removeItem('token');
+        localStorage.removeItem('numberOfRows');
+        return window.location.href = './login.html';
+    }
+})
+

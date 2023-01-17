@@ -1,7 +1,11 @@
 const path = require('path');
+const fs = require('fs');
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const helmet = require('helmet');
+const compression = require('compression');
+const morgan = require('morgan');
 
 const cors = require('cors');
 const app = express();
@@ -20,6 +24,7 @@ const expenceRoutes = require('./routes/expence');
 const purchaseRouter = require('./routes/purchase');
 const premiumRouter = require('./routes/premium');
 const passwardRouter = require('./routes/passward');
+const errorController = require('./controllers/error');
 
 const User = require('./models/user');
 const Expence = require('./models/expence');
@@ -30,6 +35,15 @@ const Filedownloaded = require('./models/filedownloaded');
 
 app.use(express.static(path.join(__dirname, 'frontend')));
 
+app.use(helmet());
+app.use(compression());
+
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, 'access.log'),{flag: 'a'}
+);
+
+app.use(morgan('combined', {stream: accessLogStream}));
+
 app.use('/user', userRoutes);
 
 app.use('/expence', expenceRoutes);
@@ -39,6 +53,8 @@ app.use('/purchase', purchaseRouter);
 app.use('/premium', premiumRouter);
 
 app.use('/passward' , passwardRouter);
+
+app.use(errorController.get404);
 
 
 User.hasMany(Expence);
@@ -53,7 +69,7 @@ ForgotPassward.belongsTo(User);
 User.hasMany(Filedownloaded);
 Filedownloaded.belongsTo(User);
 
-const port = 3000;
+const port = process.env.port;
 
 sequelize
   // .sync({force : true})

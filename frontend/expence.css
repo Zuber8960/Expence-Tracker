@@ -18,11 +18,35 @@ header {
 
 .container {
   padding: 3rem 2rem;
+  margin: auto;
 }
 
 #my-form {
+  max-width: 400px;
+  margin: auto;
   padding: 1rem;
   background: #c05e5e;
+  border: 2px solid rgba(9, 82, 21, 0.726);
+  border-radius: 20px;
+}
+
+#lists{
+  margin: 5px auto;
+  max-width: 400px;
+  font-weight: 700;
+}
+
+.litag{
+  width: 95%;
+  background-color: #c05e5e;
+  border: 2px solid rgba(9, 82, 21, 0.726);
+  border-radius: 10px;
+  margin: 5px auto;
+  padding: 5px 10px;
+}
+
+.litag:hover{
+  transform: scale(1.01);
 }
 
 #my-form label {
@@ -46,9 +70,8 @@ header {
   border: 1px solid #ccc;
 }
 
-#my-form button,
-#rzr-pay {
-  display: block;
+#my-form button{
+  /* display: block; */
   width: 100%;
   padding: 10px 15px;
   border: 0;
@@ -58,13 +81,40 @@ header {
   margin: 10px auto;
 }
 
+#rzr-pay,
+#leaderboard {
+  display: none;
+  position: absolute;
+  left: 10px;
+  padding: 10px;
+  border: 2px solid black;
+  border-radius: 5px;
+  background: #333;
+  color: #fff;
+  margin: 10px 2px;
+}
+
+#userName  {
+  position: absolute;
+  right: 10px;
+  padding: 5px;
+  background-color: #333;
+  color: #fff;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+#forPremium{
+  padding: 0px 0px 50px 0px;
+}
+
 #my-form button:hover,
 #rzr-pay:hover,
 #leaderboard:hover {
   cursor: pointer;
   transform: scale(1.03);
 }
-
+/* 
 #leaderboard {
   padding: 10px 15px;
   border: 0;
@@ -72,8 +122,9 @@ header {
   color: #fff;
   border-radius: 5px;
   margin: 10px auto;
-}
+} */
 
+/* 
 #div {
   margin: auto;
   display: flex;
@@ -81,7 +132,8 @@ header {
 
 .data {
   margin: auto;
-}
+}  */
+
 
 .msg {
   background-color: red;
@@ -90,18 +142,19 @@ header {
 }
 
 .delete{
+  float: right;
   font-weight: 800;
   color: white;
-  background-color: #c05e5e;
-  padding: 8px;
-  margin: 2px 4px;
-  border: 1px solid #ccc;
+  background-color: #333;
+  padding: 4px;
+  margin: 0px 5px;
+  border: 1px solid black;
+  border-radius: 5px;
 }
 
-.delete:hover,
-.edit:hover {
+.delete:hover{
   cursor: pointer;
-  background-color: rgb(194, 240, 194);
+  background-color:blanchedalmond;
   color: red;
 }
 
@@ -111,35 +164,44 @@ header {
   text-align: center;
 }
 
-#userName {
-  /* color: red; */
-  margin-right: -90%;
-  /* float: left; */
-  padding: 5px;
-  background-color: #333;
-  color: white;
-}
+
 
 #downloadexpense,
-#showDownloadedFile {
+#showDownloadedFile{
+  display: none;
   float: right;
   padding: 10px 15px;
-  border: 0;
   background: #333;
   color: #fff;
   border-radius: 5px;
   margin: 10px 3px;
 }
 
+.logout{
+  float: left;
+  padding: 10px 15px;
+  border: 0;
+  background: #333;
+  color: #fff;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin: 10px 3px;
+}
+
 #showDownloadedFile:hover,
 #downloadexpense:hover ,
-.pegination:hover{
-  transform: scale(1.1);
+.pegination:hover,
+.logout:hover{
+  transform: scale(1.03);
   cursor: pointer;
 }
+
+
 #pagination{
   text-align: center;
 }
+
+
 .pegination {
   background: #333;
   color: #fff;
@@ -147,10 +209,21 @@ header {
   margin: 2px;
   padding: 5px;
 }
+
 .pegination h3{
   padding : 10px 2px;
 }
 
 #perPage{
-  float: right;
+  position: absolute;
+  right: 5px;
+}
+
+#setRows{
+  background: #333;
+  color: #fff;
+  padding: 0px 5px;
+}
+#setRows:hover{
+  cursor: pointer;
 }
