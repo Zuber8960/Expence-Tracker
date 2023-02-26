@@ -7,9 +7,9 @@ form.addEventListener('click', (e) => {
     if (e.target.className == 'signup') {
         let name = document.getElementById('name').value;
         let email = document.getElementById('email').value;
-        let passward = document.getElementById('passward').value;
+        let password = document.getElementById('password').value;
 
-        let obj = { name, email, passward };
+        let obj = { name, email, password };
         // console.log(obj);
         signUp();
         async function signUp() {
@@ -39,8 +39,8 @@ form.addEventListener('click', (e) => {
 
     if (e.target.className == 'goToLogin') {
         let email = document.getElementById('email').value;
-        let passward = document.getElementById('passward').value;
-        let obj = { email, passward };
+        let password = document.getElementById('password').value;
+        let obj = { email, password };
         // console.log(obj);
         login();
         async function login() {
@@ -70,9 +70,9 @@ form.addEventListener('click', (e) => {
         return window.location.href = "./signup.html";
     }
 
-    if(e.target.className == 'forgotPassward'){
+    if(e.target.className == 'forgotpassword'){
         console.log(`hello forgeotPass`);
-        window.location.href = "./forgotPassward/index.html";
+        window.location.href = "./forgotpassword/index.html";
     }
 
 });

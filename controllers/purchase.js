@@ -10,7 +10,7 @@ exports.premiumMembership = async (req, res, next) => {
             key_id: process.env.key_id,
             key_secret: process.env.key_secret
         })
-        const amount = 2500;
+        const amount = 10000;
 
         rzp.orders.create({ amount, currency: "INR" }, async (err, order) => {
             try {

@@ -6,19 +6,19 @@ const AWS = require('aws-sdk');
 exports.signUp = (req, res, next) => {
     const data = req.body;
 
-    if (data.name == "" || data.email == "" || data.passward == "") {
+    if (data.name == "" || data.email == "" || data.password == "") {
         // console.log(`name`);
         return res.status(200).json({ message: "Please fill all feilds !" })
     }
     const saltRounds = 10;
-    bcrypt.hash(data.passward, saltRounds, async (err, hash) => {
+    bcrypt.hash(data.password, saltRounds, async (err, hash) => {
         try {
             console.log(err);
             const user = await User.create({
                 name: data.name,
                 email: data.email,
                 isPremiumUser: false,
-                passward: hash,
+                password: hash,
             })
             return res.status(201).json({ success: true, user })
         } catch (err) {
@@ -41,25 +41,25 @@ function generateAccessToken(id, name) {
 exports.login = async (req, res, next) => {
     try {
         let email = req.body.email;
-        let passward = req.body.passward;
-        if (email == "" || passward == "") {
+        let password = req.body.password;
+        if (email == "" || password == "") {
             return res.status(204).json({ success: false, message: `Please fill all feilds !` });
         }
-        // console.log(email, passward);
+        // console.log(email, password);
 
         const user = await User.findAll({ where: { email: email } })
 
         if (user.length == 0) {
             return res.status(404).json({ success: false, message: `Error(404) : User ${email} does not exist` });
         } else {
-            bcrypt.compare(passward, user[0].passward, (err, response) => {
+            bcrypt.compare(password, user[0].password, (err, response) => {
                 if (err) {
                     console.log(err);
                 }
                 if (response) {
                     return res.status(201).json({ success: true, message: `User : ${user[0].name} logged in successfully.`, token: generateAccessToken(user[0].id, user[0].name) });
                 } else {
-                    return res.status(401).json({ success: false, message: `Error(401) : Entered wrong passward !` });
+                    return res.status(401).json({ success: false, message: `Error(401) : Entered wrong password !` });
                 }
             })
         }

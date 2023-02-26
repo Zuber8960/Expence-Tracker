@@ -23,13 +23,13 @@ const userRoutes = require('./routes/user');
 const expenceRoutes = require('./routes/expence');
 const purchaseRouter = require('./routes/purchase');
 const premiumRouter = require('./routes/premium');
-const passwardRouter = require('./routes/passward');
+const passwordRouter = require('./routes/password');
 const errorController = require('./controllers/error');
 
 const User = require('./models/user');
 const Expence = require('./models/expence');
 const Order = require('./models/order');
-const ForgotPassward = require('./models/forgotPassward');
+const Forgotpassword = require('./models/forgotpassword');
 const Filedownloaded = require('./models/filedownloaded');
 
 
@@ -43,16 +43,11 @@ const accessLogStream = fs.createWriteStream(
 );
 
 app.use(morgan('combined', {stream: accessLogStream}));
-
 app.use('/user', userRoutes);
-
 app.use('/expence', expenceRoutes);
-
 app.use('/purchase', purchaseRouter);
-
 app.use('/premium', premiumRouter);
-
-app.use('/passward' , passwardRouter);
+app.use('/password' , passwordRouter);
 
 app.use(errorController.get404);
 
@@ -63,8 +58,8 @@ Expence.belongsTo(User);
 User.hasMany(Order);
 Order.belongsTo(User);
 
-User.hasMany(ForgotPassward);
-ForgotPassward.belongsTo(User);
+User.hasMany(Forgotpassword);
+Forgotpassword.belongsTo(User);
 
 User.hasMany(Filedownloaded);
 Filedownloaded.belongsTo(User);
