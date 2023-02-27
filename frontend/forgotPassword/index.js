@@ -6,7 +6,7 @@ form.addEventListener('click' , (e) => {
         let email = document.getElementById('email').value;
         console.log(email);
         const userEmail = {email};
-        axios.post(`http://localhost:3000/password/forgotpassword`,userEmail)
+        axios.post(`http://100.26.211.77:3000/password/forgotpassword`,userEmail)
         .then(responce => {
             if(responce.status == 200){
                 document.body.innerHTML += '<div class="error">Mail Successfuly sent <div>'

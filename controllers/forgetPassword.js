@@ -39,7 +39,7 @@ exports.forgetpassword = async (req, res, next) => {
                 subject: "Forgot Password",
                 textContent: "Reset password mail by Expence tracker",
                 htmlContent: `
-                <a href="http://localhost:3000/password/resetpassword/${id}">Reset password</a>
+                <a href="http://100.26.211.77:3000/password/resetpassword/${id}">Reset password</a>
                 `,
             })
         
@@ -114,7 +114,7 @@ exports.updatepassword = async (req, res, next) => {
                     }
                     user.update({password : hash})
                     .then(() => {
-                        return res.redirect('http://localhost:3000/login.html');
+                        return res.redirect('http://100.26.211.77:3000/login.html');
                         // return res.status(201).json({success : true, message: 'Successfully updated new password'});
                     })
                 })
