@@ -1,6 +1,6 @@
 <h1 align="center">Hi 👋, I'm Zuber</h1>
 <h3 align="center">Wellcome to my Expence-Tracker project</h3>
-<img align="right" alt="Coding" width="400" src="./gif/gif2.gif">
+<img align="right" alt="Coding" width="400" src="https://github.com/Zuber8960/Expence-Tracker/blob/all-set/gif/page.png">
 
 - 🌱 Frontend : **HTML, CSS, Java Script**
 - 🌱 Backend :  **Express JS, Node JS, MySQL**
